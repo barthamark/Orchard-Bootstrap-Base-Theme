@@ -1,0 +1,8 @@
+button, input[type=submit], button[type=submit] {
+    @extend .btn;
+}
+
+.content-items {
+    list-style-type: none;
+    padding: 0;
+}

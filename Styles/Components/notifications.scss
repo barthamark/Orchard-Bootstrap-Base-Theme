@@ -1,0 +1,19 @@
+@import "../../Content/bootstrap/alert";
+
+.message {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+}
+
+.message-Information {
+    @extend .alert-success;
+}
+
+.message-Warning {
+    @extend .alert-warning;
+}
+
+.message-Error {
+    @extend .alert-danger;
+}

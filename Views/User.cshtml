@@ -1,0 +1,26 @@
+﻿<ul class="nav navbar-nav pull-md-right">
+    @if (WorkContext.CurrentUser != null)
+    {
+        <li class="nav-item dropdown">
+            <a class="logged-in-user nav-link dropdown-toggle" data-toggle="dropdown" href="~/">@WorkContext.CurrentUser.UserName</a>
+            <div class="dropdown-menu">
+                @Html.ActionLink(T("Change Password"), "ChangePassword", new { Controller = "Account", Area = "Orchard.Users" }, new { @class = "dropdown-item" })
+                @if (AuthorizedFor(Orchard.Security.StandardPermissions.AccessAdminPanel))
+                {
+                    @Html.ActionLink(T("Dashboard").ToString(), "Index", new { Area = "Dashboard", Controller = "Admin" }, new { @class = "dropdown-item" })
+                }
+
+                <div class="dropdown-divider"></div>
+
+                @Html.ActionLink(T("Sign Out").ToString(), "LogOff", new { Controller = "Account", Area = "Orchard.Users", ReturnUrl = Context.Request.RawUrl }, new { rel = "nofollow", @class = "dropdown-item" })
+            </div>
+
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            @Html.ActionLink(T("Sign In").ToString(), "LogOn", new { Controller = "Account", Area = "Orchard.Users", ReturnUrl = (Request.QueryString["ReturnUrl"] ?? Request.RawUrl) }, new { rel = "nofollow", @class = "nav-link" })
+        </li>
+    }
+</ul>

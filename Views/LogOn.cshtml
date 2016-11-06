@@ -1,0 +1,58 @@
+﻿@using Orchard.ContentManagement
+@using Orchard.Users.Models
+
+@{
+    var userCanRegister = WorkContext.CurrentSite.As<RegistrationSettingsPart>().UsersCanRegister;
+    var enableLostPassword = WorkContext.CurrentSite.As<RegistrationSettingsPart>().EnableLostPassword;
+
+    Layout.Title = Model.Title;
+}
+
+<div class="form-log-in">
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { ReturnUrl = Request.QueryString["ReturnUrl"] })))
+            {
+                @Html.ValidationSummary(T("Login was unsuccessful. Please correct the errors and try again.").ToString())
+
+                <fieldset>
+                    <legend>
+                        @if (userCanRegister)
+                        {
+                            @T("Please Log In, or ") @Html.ActionLink(T("Register").Text, "Register", new { ReturnUrl = Request.QueryString["ReturnUrl"] })
+                        }
+                        else
+                        {
+                            @T("Please Log In")
+                        }
+                    </legend>
+
+                    <div class="form-group">
+                        @Html.Label("userNameOrEmail", T("Username or Email").Text, new { @class = "sr-only" })
+                        @Html.TextBox("userNameOrEmail", "", new { autofocus = "autofocus", placeholder = T("Username or Email"), @class = "form-control" })
+                        @Html.ValidationMessage("userNameOrEmail")
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("password", T("Password").Text, new { @class = "sr-only" })
+                        @Html.Password("password", "", new { placeholder = T("Password"), @class = "form-control" })
+                        @Html.ValidationMessage("password")
+                    </div>
+                    <div class="form-group">
+                        <label class="form-check-label" for="rememberMe">
+                            @Html.CheckBox("rememberMe", new { @class = "form-check-input" })
+                            @T("Remember Me")
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">@T("Sign In")</button>
+                    </div>
+                </fieldset>
+            }
+
+            @if (enableLostPassword)
+            {
+                @Html.ActionLink(T("Forgot Password?").Text, "RequestLostPassword")
+            }
+        </div>
+    </div>
+</div>

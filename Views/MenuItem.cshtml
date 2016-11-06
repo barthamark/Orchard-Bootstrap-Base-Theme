@@ -1,0 +1,42 @@
+﻿@{
+    // odd formatting in this file is to cause more attractive results in the output.
+    var items = Enumerable.Cast<dynamic>((System.Collections.IEnumerable)Model);
+}
+@if (!HasText(Model.Text))
+{
+    @DisplayChildren(Model)
+}
+else
+{
+    Model.Metadata.Alternates.Clear();
+    Model.Metadata.Type = "MenuItemLink";
+
+    if ((bool)Model.Selected)
+    {
+        Model.Classes.Add("active");
+    }
+
+    if (items.Any())
+    {
+        Model.Classes.Add("dropdown");
+    }
+
+
+    var renderedMenuItemLink = Display(Model);
+    if (HasText(renderedMenuItemLink))
+    {
+        Model.Classes.Add("nav-item");
+        var tag = Tag(Model, "li");
+        @tag.StartElement
+        @renderedMenuItemLink
+
+        if (items.Any())
+        {
+            <ul>
+                @DisplayChildren(Model)
+            </ul>
+        }
+
+        @tag.EndElement
+    }
+}

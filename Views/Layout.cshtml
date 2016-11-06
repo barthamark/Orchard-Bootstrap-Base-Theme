@@ -1,0 +1,170 @@
+﻿@functions {
+    // To support the layout classifaction below.
+    // Implementing as a razor function because we can, could otherwise be a Func<string[], string, string> in the code block following.
+    string CalcuClassify(string[] zoneNames, string classNamePrefix)
+    {
+        var zoneCounter = 0;
+        var zoneNumsFilled = string.Join("", zoneNames.Select(zoneName => { ++zoneCounter; return Model[zoneName] != null ? zoneCounter.ToString() : ""; }).ToArray());
+
+        return HasText(zoneNumsFilled) ? classNamePrefix + zoneNumsFilled : "";
+    }
+}
+
+@{
+    Func<dynamic, dynamic> Zone = x => Display(x);
+
+    var asideClass = CalcuClassify(new[] { "AsideFirst", "AsideSecond" }, "aside-");
+    if (HasText(asideClass))
+    {
+        Model.Classes.Add(asideClass);
+    }
+
+    var tripelClass = CalcuClassify(new[] { "TripelFirst", "TripelSecond", "TripelThird" }, "tripel-");
+    if (HasText(tripelClass))
+    {
+        Model.Classes.Add(tripelClass);
+    }
+
+    var footerQuadClass = CalcuClassify(new[] { "FooterQuadFirst", "FooterQuadSecond", "FooterQuadThird", "FooterQuadFourth" }, "split-");
+    if (HasText(footerQuadClass))
+    {
+        Model.Classes.Add(footerQuadClass);
+    }
+
+    Model.Id = "layout-wrapper";
+    var tag = Tag(Model, "div");
+
+    var contentAsideCount = Model.AsideFirst != null ? 1 : 0;
+    contentAsideCount += Model.AsideSecond != null ? 1 : 0;
+
+    var layoutContentClass = "";
+    switch (contentAsideCount)
+    {
+        case 1:
+            layoutContentClass = "col-sm-8";
+            break;
+        case 2:
+            layoutContentClass = "col-sm-6";
+            break;
+        default:
+            layoutContentClass = "";
+            break;
+
+    }
+
+    var layoutAsideClass = contentAsideCount > 1 ? "col-sm-3" : "col-sm-4";
+    var layoutMainContainerClass = contentAsideCount > 0 ? "row" : "";
+    
+    WorkContext.Layout.Footer.Add(New.BadgeOfHonor(), "5"); // Powered by Orchard
+}
+
+
+@tag.StartElement
+
+@if (Model.Header != null)
+{
+    <header id="layout-header">
+        <div class="container">
+            @Zone(Model.Header)
+        </div>
+    </header>
+}
+
+@if (Model.Navigation != null)
+{
+    <section id="layout-navigation">
+        <div class="container">
+            @Zone(Model.Navigation)
+        </div>
+    </section>
+}
+
+@if (Model.Featured != null)
+{
+    <section id="layout-featured">
+        <div class="container">
+            @Zone(Model.Featured)
+        </div>
+    </section>
+}
+
+@if (Model.BeforeMain != null)
+{
+    <section id="layout-before-main">
+        <div class="container">
+            @Zone(Model.BeforeMain)
+        </div>
+    </section>
+}
+
+@if (Model.Messages != null)
+{
+    <section id="messages">
+        <div class="container">
+            @Zone(Model.Messages)
+        </div>
+    </section>
+}
+
+<section id="layout-main" class="@layoutMainContainerClass">
+    <div class="container">
+        <div class="layout-main-inner @layoutMainContainerClass">
+            @if (Model.AsideFirst != null)
+            {
+                <aside id="aside-first" class="@layoutAsideClass">
+                    @Zone(Model.AsideFirst)
+                </aside>
+            }
+
+            <div id="layout-content" class="@layoutContentClass">
+                @if (Model.BeforeContent != null)
+                {
+                    <div id="before-content">
+                        @Zone(Model.BeforeContent)
+                    </div>
+                }
+
+                @if (Model.Content != null)
+                {
+                    <div id="content" class="group">
+                        @Zone(Model.Content)
+                    </div>
+                }
+
+                @if (Model.AfterContent != null)
+                {
+                    <div id="after-content">
+                        @Zone(Model.AfterContent)
+                    </div>
+                }
+            </div>
+
+            @if (Model.AsideSecond != null)
+            {
+                <aside id="aside-second" class="@layoutAsideClass">
+                    @Zone(Model.AsideSecond)
+                </aside>
+            }
+        </div>
+    </div>
+</section>
+
+@if (Model.AfterMain != null)
+{
+    <section id="layout-after-main">
+        <div class="container">
+            @Zone(Model.AfterMain)
+        </div>
+    </section>
+}
+
+@if (Model.Footer != null)
+{
+    <footer id="layout-footer">
+        <div class="container">
+            @Zone(Model.Footer)
+        </div>
+    </footer>
+}
+
+@tag.EndElement

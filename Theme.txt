@@ -1,0 +1,7 @@
+Name: Mark Bartha - Bootstrap
+Author: Mark Bartha
+Website: http://markbartha.com
+Description: Bootstrap 4 (base) theme for Orchard
+Version: 1.0
+Tags: Bootstrap
+Zones: Header, Navigation, Featured, BeforeMain, AsideFirst, Messages, BeforeContent, Content, AfterContent, AsideSecond, AfterMain, Footer

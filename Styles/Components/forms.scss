@@ -1,0 +1,34 @@
+.validation-summary-errors {
+    @extend .alert-danger;
+    padding: .5rem 1rem;
+
+    ul, ol {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    span {
+        display: block;
+    }
+
+    span, li {
+        padding: .5rem;
+    }
+}
+
+form {
+    ol {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .input-validation-error {
+        @extend .form-control-warning;
+        background-image: $form-icon-warning;
+    }
+
+    .field-validation-error {
+        color: $alert-danger-text;
+    }
+}

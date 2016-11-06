@@ -1,0 +1,13 @@
+﻿@using Orchard.UI.Resources;
+
+@{
+    RegisterLink(new LinkEntry { Type = "image/x-icon", Rel = "shortcut icon", Href = Url.Content("~/modules/orchard.themes/Content/orchard.ico") });
+    SetMeta(new MetaEntry { Name = "viewport", Content = "width=device-width, initial-scale=1.0" });
+    SetMeta(httpEquiv: "X-UA-Compatible", content: "IE=edge,chrome=1");
+
+    Style.Require("App");
+
+    Script.Include("~/Core/Shapes/Scripts/html5.js").AtHead();
+    Script.Include("~/Themes/MarkBartha.Bootstrap/Scripts/jquery-3.0.0.min.js").AtHead();
+    Script.Include("~/Themes/MarkBartha.Bootstrap/Scripts/bootstrap.min.js").AtHead();
+}

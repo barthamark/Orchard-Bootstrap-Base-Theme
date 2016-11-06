@@ -1,0 +1,16 @@
+@{
+    Model.Classes.Add("navbar");
+    Model.Classes.Add("navbar-light");
+    Model.Classes.Add("bg-faded");
+    var tag = Tag(Model, "nav");
+}
+
+@tag.StartElement
+
+@Display(New.Branding())
+
+@DisplayChildren(Model)
+
+@Display(New.User())
+
+@tag.EndElement
